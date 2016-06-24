@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+
+
+### PHP-FPM Container #######################################
+
+    php-fpm:
+        build:
+            context: images/php-fpm
+            dockerfile: Dockerfile-56
+        volumes_from:
+            - application
+        expose:
+            - "9000"
+
+    ### Laravel Application Code Container ######################
+
+    application:
+        build: images/application
+        volumes:
+            - .:/var/www/laravel
+
+    nginx:
+        build: images/nginx
+        volumes_from:
+            - application
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
+        ports:
+            - "80:80"
+            - "443:443"
+        links:
+            - php-fpm
