@@ -34,11 +34,13 @@ RUN mkdir /opt/oracle \
 
 # Install OCI 8
 RUN echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-1.4.10
-RUN docker-php-ext-configure pdo_oci --with-pdo-oci=instantclient,/opt/oracle/instantclient_12_1,12.1 
+RUN docker-php-ext-configure pdo_oci \
+    --with-pdo-oci=instantclient,/opt/oracle/instantclient_12_1,12.1 
 
 
 # Configure ldap library
-RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/
+RUN docker-php-ext-configure ldap \
+    --with-libdir=lib/x86_64-linux-gnu/
 
 
 # configure gd library
